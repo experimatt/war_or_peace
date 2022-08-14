@@ -6,4 +6,8 @@ class Card
     @value = value
     @rank = rank
   end
+
+  def high_ranking?
+    rank > 10
+  end
 end
