@@ -82,10 +82,30 @@ describe Turn do
   end
 
   describe '#winner' do
-    it 'returns the winning player' do
-      turn = Turn.new(p1, p2)
+    describe 'basic turn' do
+      it 'bases winner off first card' do
+        turn = Turn.new(p1, p2)
 
-      expect(turn.winner).to eq(p1)
+        expect(turn.winner).to eq(p1)
+      end
+    end
+
+    describe 'war turn' do
+      it 'bases winner off third card' do
+        war_deck = Deck.new([c1, c3, c4])
+        p3 = Player.new('Amy', war_deck)
+        turn = Turn.new(p1, p3)
+
+        expect(turn.winner).to eq(p1)
+      end
+    end
+
+    describe 'mutually assured destruction turn' do
+      it 'returns "No winner"' do
+        turn = Turn.new(p1, p1)
+
+        expect(turn.winner).to eq('No winner')
+      end
     end
   end
 

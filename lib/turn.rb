@@ -20,6 +20,20 @@ class Turn
   end
 
   def winner
-    player1
+    if type == :mutually_assured_destruction
+      return 'No winner'
+    elsif type == :war
+      player_with_higher_card_at(2)
+    else
+      player_with_higher_card_at(0)
+    end
+  end
+
+  def player_with_higher_card_at(index)
+    compare_cards_at(index) ? player1 : player2
+  end
+
+  def compare_cards_at(index)
+    player1.deck.rank_of_card_at(index) > player2.deck.rank_of_card_at(index)
   end
 end
