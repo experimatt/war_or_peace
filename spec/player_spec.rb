@@ -1,12 +1,13 @@
 require 'rspec'
 require './lib/player'
+require './lib/deck'
+require './lib/card'
 
 describe Player do
   let(:c1) { Card.new(:diamond, 'Queen', 12) }
   let(:c2) { Card.new(:spade, '3', 3) }
   let(:c3) { Card.new(:heart, 'Ace', 14)   }
-  let(:cards) { [c1, c2, c3] }
-  let(:deck) { Deck.new(cards) }
+  let(:deck) { Deck.new([c1, c2, c3]) }
 
   it 'exists' do
     player = Player.new('boop', Deck.new)

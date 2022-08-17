@@ -1,5 +1,6 @@
 require 'rspec'
 require './lib/deck'
+require './lib/card'
 
 describe Deck do
   let(:c1) { Card.new(:diamond, 'Queen', 12) }
