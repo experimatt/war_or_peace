@@ -110,11 +110,71 @@ describe Turn do
   end
 
   describe '#pile_cards' do
-  end
+    describe 'basic turn' do
+      it 'removes one card from each deck as spoils' do
+        turn = Turn.new(p1, p2)
 
-  describe '#spoils_of_war' do
+        expect(turn.pile_cards).to contain_exactly([c1, c4])
+      end
+    end
+
+    describe 'war turn' do
+      it 'removes three cards from each deck as spoils' do
+        war_deck = Deck.new([c1, c3, c4])
+        p3 = Player.new('Amy', war_deck)
+        turn = Turn.new(p1, p3)
+
+        expect(turn.pile_cards).to contain_exactly([c1, c2, c3, c1, c3, c4])
+      end
+    end
+
+    describe 'mutually assured destruction turn' do
+      it 'removes three cards from each deck without any spoils' do
+        turn = Turn.new(p1, p1)
+
+        expect(turn.pile_cards).to eq([])
+      end
+    end
   end
 
   describe '#award_spoils' do
+    describe 'basic turn' do
+      it 'removes one card from each deck as spoils' do
+        turn = Turn.new(p1, p2)
+
+        turn.pile_cards
+        # expect { turn.pile_cards }.to change { p1.deck.cards.length}.by(-1)
+          # .and { p2.deck.cards.length}.by(-1)
+
+        expect(turn.spoils_of_war).to contain_exactly(c1, c4)
+        expect(p1.deck.cards.length).to eq(2)
+        expect(p2.deck.cards.length).to eq(2)
+      end
+    end
+
+    describe 'war turn' do
+      it 'removes three cards from each deck as spoils' do
+        war_deck = Deck.new([c1, c3, c4])
+        p3 = Player.new('Amy', war_deck)
+        turn = Turn.new(p1, p3)
+
+        turn.pile_cards
+
+        expect(turn.spoils_of_war).to contain_exactly(c1, c2, c3, c1, c3, c4)
+        expect(p1.deck.cards.length).to eq(0)
+        expect(p2.deck.cards.length).to eq(0)
+      end
+    end
+
+    describe 'mutually assured destruction turn' do
+      it 'removes three cards from each deck without any spoils' do
+        turn = Turn.new(p1, p1)
+
+        turn.pile_cards
+        expect(turn.spoils_of_war).to eq([])
+        expect(p1.deck.cards.length).to eq(0)
+        expect(p2.deck.cards.length).to eq(0)
+      end
+    end
   end
 end

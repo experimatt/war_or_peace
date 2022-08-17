@@ -1,6 +1,9 @@
 class Turn
   attr_reader :player1, :player2, :spoils_of_war
 
+  # Future optimizations:
+  #   1. Create separate turn classes based on type (e.g. BasicTurn, WarTurn, MutuallyAssuredDestructionTurn)
+
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
@@ -29,6 +32,18 @@ class Turn
     end
   end
 
+  def pile_cards
+    if type == :mutually_assured_destruction
+      player1.deck.cards.shift(3) && player2.deck.cards.shift(3)
+      []
+    elsif type == :war
+      [*player1.deck.cards.shift(3), *player2.deck.cards.shift(3)]
+    else
+      [player1.deck.remove_card, player2.deck.remove_card]
+    end
+  end
+
+  # winner helper methods
   def player_with_higher_card_at(index)
     compare_cards_at(index) ? player1 : player2
   end
