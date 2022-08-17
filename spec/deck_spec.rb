@@ -99,4 +99,18 @@ describe Deck do
       expect(deck.cards).to eq([c1, c2, c3, c4])
     end
   end
+
+  describe '#has_cards?' do
+    it 'returns true when cards are present' do
+      deck = Deck.new(cards)
+
+      expect(deck.has_cards?).to eq(true)
+    end
+
+    it 'returns false when no cards present' do
+      deck = Deck.new
+
+      expect(deck.has_cards?).to eq(false)
+    end
+  end
 end
