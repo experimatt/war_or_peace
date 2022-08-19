@@ -151,43 +151,49 @@ describe Turn do
   end
 
   describe '#award_spoils' do
-  #   describe 'basic turn' do
-  #     it 'removes one card from each deck as spoils' do
-  #       turn = Turn.new(p1, p2)
+    describe 'basic turn' do
+      it "adds spoils to the winner's deck" do
+        turn = Turn.new(p1, p2)
 
-  #       turn.pile_cards
-  #       # expect { turn.pile_cards }.to change { p1.deck.cards.length}.by(-1)
-  #         # .and { p2.deck.cards.length}.by(-1)
+        turn.pile_cards
 
-  #       expect(turn.spoils_of_war).to contain_exactly(c1, c4)
-  #       expect(p1.deck.cards.length).to eq(2)
-  #       expect(p2.deck.cards.length).to eq(2)
-  #     end
-  #   end
+        expect { turn.award_spoils }
+          .to change { turn.winner.deck.cards.length}.by(2)
+      end
+    end
 
-  #   describe 'war turn' do
-  #     it 'removes three cards from each deck as spoils' do
-  #       war_deck = Deck.new([c1, c3, c4])
-  #       p3 = Player.new('Amy', war_deck)
-  #       turn = Turn.new(p1, p3)
+    describe 'war turn' do
+      it "adds spoils to the winner's deck" do
+        war_deck = Deck.new([c1, c3, c4])
+        p3 = Player.new('Amy', war_deck)
+        turn = Turn.new(p1, p3)
 
-  #       turn.pile_cards
+        turn.pile_cards
 
-  #       expect(turn.spoils_of_war).to contain_exactly(c1, c2, c3, c1, c3, c4)
-  #       expect(p1.deck.cards.length).to eq(0)
-  #       expect(p2.deck.cards.length).to eq(0)
-  #     end
-  #   end
+        expect { turn.award_spoils }
+          .to change { turn.winner.deck.cards.length}.by(6)
+      end
+    end
 
-  #   describe 'mutually assured destruction turn' do
-  #     it 'removes three cards from each deck without any spoils' do
-  #       turn = Turn.new(p1, p1)
+    describe 'mutually assured destruction turn' do
+      it "doesn't add cards to any decks" do
+        p4 = Player.new('Aries', Deck.new([c1,c2,c3]))
+        turn = Turn.new(p1, p4)
 
-  #       turn.pile_cards
-  #       expect(turn.spoils_of_war).to eq([])
-  #       expect(p1.deck.cards.length).to eq(0)
-  #       expect(p2.deck.cards.length).to eq(0)
-  #     end
-  #   end
+        turn.pile_cards
+
+        expect {turn.award_spoils }
+          .to change { p1.deck.cards.length}.by(0)
+          .and change { p4.deck.cards.length}.by(0)
+      end
+    end
+
+    it "changes nothing if cards haven't been piled" do
+      turn = Turn.new(p1, p2)
+
+      expect { turn.award_spoils }
+        .to change { p1.deck.cards.length}.by(0)
+        .and change { p2.deck.cards.length}.by(0)
+    end
   end
 end

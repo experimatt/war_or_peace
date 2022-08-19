@@ -1,3 +1,5 @@
+require 'pry'
+
 class Turn
   attr_reader :player1, :player2, :spoils_of_war
 
@@ -43,12 +45,18 @@ class Turn
     end
   end
 
+  def award_spoils
+    winner.deck.cards.push(*spoils_of_war) if spoils_of_war.any?
+  end
+
   # winner helper methods
   def player_with_higher_card_at(index)
     compare_cards_at(index) ? player1 : player2
   end
 
   def compare_cards_at(index)
-    player1.deck.rank_of_card_at(index) > player2.deck.rank_of_card_at(index)
+    c1 = player1.deck&.rank_of_card_at(index)
+    c2 = player2.deck&.rank_of_card_at(index)
+    c1 && c2 && c1 > c2
   end
 end
