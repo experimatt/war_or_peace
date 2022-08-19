@@ -35,11 +35,11 @@ class Turn
   def pile_cards
     if type == :mutually_assured_destruction
       player1.deck.cards.shift(3) && player2.deck.cards.shift(3)
-      []
+      nil
     elsif type == :war
-      [*player1.deck.cards.shift(3), *player2.deck.cards.shift(3)]
+      @spoils_of_war = [*player1.deck.cards.shift(3), *player2.deck.cards.shift(3)]
     else
-      [player1.deck.remove_card, player2.deck.remove_card]
+      @spoils_of_war = [player1.deck.remove_card, player2.deck.remove_card]
     end
   end
 
