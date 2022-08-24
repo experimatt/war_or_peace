@@ -49,6 +49,14 @@ class Turn
     winner.deck.cards.push(*spoils_of_war) if spoils_of_war.any?
   end
 
+  def outcome
+    {
+      winner: winner,
+      type: type,
+      spoils: spoils_of_war,
+    }
+  end
+
   # winner helper methods
   def player_with_higher_card_at(index)
     compare_cards_at(index) ? player1 : player2

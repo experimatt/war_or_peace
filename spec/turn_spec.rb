@@ -272,4 +272,12 @@ describe Turn do
         .and change { other_player.deck.cards.length}.by(0)
     end
   end
+
+  describe '#outcome' do
+    it 'includes winner, type, and spoils' do
+      turn = Turn.new(player, other_player)
+
+      expect(turn.outcome.keys).to contain_exactly(:winner, :type, :spoils)
+    end
+  end
 end
