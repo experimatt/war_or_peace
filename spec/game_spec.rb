@@ -44,14 +44,4 @@ describe Game do
       expect(game.turns.any?).to eq(true)
     end
   end
-
-  # describe '#start_message' do
-  #   it 'lists number of cards' do
-  #     expect(game.start_message[0]).to eq("Welcome to War! (or Peace) This game will be played with 52 cards.")
-  #   end
-
-  #   it 'includes players' do
-  #     expect(game.start_message[1]).to eq("The players today are Anthony and Matt.")
-  #   end
-  # end
 end

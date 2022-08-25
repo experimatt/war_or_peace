@@ -33,28 +33,16 @@ class Game
 
     @state = :completed
 
-    winner = player1.has_lost? ? player2 : player1
-
     if log_output
       log_turns
+      log_winner
     else
       puts "Game over after #{turn_count} turns"
-    end
-
-    if winner
-      puts "*~*~*~* #{winner.name} has won the game! *~*~*~*"
-    else
-      puts "---- DRAW ----"
     end
   end
 
   def start_message
-    [
-      "Welcome to War! (or Peace) This game will be played with #{deck.cards.length} cards.",
-      "The players today are #{player1.name} and #{player2.name}.",
-      "Type 'GO' to start the game!",
-      "------------------------------------------------------------------"
-    ]
+    puts "Welcome to War! (or Peace) This game will be played with #{deck.cards.length} cards.\nThe players today are #{player1.name} and #{player2.name}.\nType 'GO' to start the game!\n------------------------------------------------------------------"
   end
 
   def log_turns
@@ -64,6 +52,17 @@ class Game
       else
         puts "TURN #{i+1}: #{turn[:type] == :war ? 'WAR - ' : ''}#{turn[:winner]&.name} won #{turn[:spoils].length} cards."
       end
+    end
+  end
+
+  def log_winner
+    winner = player2 if player1.has_lost?
+    winner = player1 if player2.has_lost?
+
+    if winner
+      puts "*~*~*~* #{winner.name} has won the game! *~*~*~*"
+    else
+      puts "---- DRAW ----"
     end
   end
 end

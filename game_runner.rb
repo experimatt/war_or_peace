@@ -8,7 +8,7 @@ p2_name = gets.chomp || 'Anthony'
 
 game = Game.new(p1_name, p2_name)
 
-game.start_message.each { |line| puts line }
+game.start_message
 
 input = gets.chomp
 
